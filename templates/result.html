@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+<!-- タイトル表示 -->
+{% block title %}
+{{ swimmerName }}の記録
+{% endblock %}
+
+<!-- コンテンツ内容の表示 -->
+{% block content %}
+<p>{{ waterWay }} {{ distance }} {{ swimmingStyle }}
+    {{ swimmerName }}
+</p>
+
+{{ dataframe | safe }}
+
+{% endblock %}

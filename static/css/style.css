@@ -1,0 +1,30 @@
+.dataframe{
+    /*テーブルの縦幅が100px以上の場合スクロール*/
+    height: 100px;
+    /*縦スクロール*/
+    overflow: scroll;
+}
+ 
+/* 一覧表の調整 */
+td {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;       
+}
+th {
+    background-color: #ddffeb;
+    border-bottom: solid black;
+    border-left: solid black;
+    border-right: solid black;
+    border-top: solid black;
+    border-width: 2px;
+    position: sticky;
+    top: 0;
+    text-align: center; 
+}
+/* カラムの調整 */
+.column {
+    overflow: hidden;/*スクロール時にカラム名を固定*/
+    text-overflow: ellipsis;
+}

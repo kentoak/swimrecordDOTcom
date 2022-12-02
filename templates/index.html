@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<!-- タイトル表示 -->
+<title>スイムレコード</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+    <style>
+      .select2-selection__rendered {
+          font-size: 15px;
+      }
+      .select2-results__options {
+          font-size: 15px;
+      }
+    </style>
+</head>
+
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <ul class=flashes>
+  {% for category, message in messages %}
+    <p class="{{ category }}">{{ message }}</p>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+<form action="/result" method="POST">
+  <p class="sex1">男子</p>
+  <p>選手：
+    <!-- <select name="swimmerName_male" class="select2"> -->
+    <select class="js-select2_1" name="swimmerName_male"><!--  style="width:100%"> -->
+    {% for i in swimmer_male_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+    <!-- <button id="clearSelect1">clear</button> -->
+    <input type="checkbox" id="check1" name="check1" checked>
+    <label for="scales">複数指定</label>
+  </p>
+
+  <p>水路：
+    <select name="waterWay_male">
+    <option value=ALL selected>ALL</option>
+    {% for i in waterway_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+
+  <p>距離：
+    <select name="distance_male">
+    <option value=ALL selected>ALL</option>
+    {% for i in distance_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+
+  <p>種目：
+    <select name="swimmingStyle_male">
+    <option value=ALL selected>ALL</option>
+    {% for i in swimmingstyle_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+  <p><input type="submit" name="submit_male" value="表示"></p>
+  <p class="log1"></p>
+  
+  
+  <br><br><br>
+
+  <p class="sex2">女子</p>
+  <p>選手：
+    <select class="js-select2_2" name="swimmerName_female"><!--  style="width:100%"> -->
+    {% for i in swimmer_female_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    <!-- <button id="clearSelect2">clear</button> -->
+    <input type="checkbox" id="check2" name="check2" checked>
+    <label for="scales">複数指定</label>
+    </select>
+  </p>
+
+  <p>水路：
+    <select name="waterWay_female">
+    <option value=ALL selected>ALL</option>
+    {% for i in waterway_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+
+  <p>距離：
+    <select name="distance_female">
+    <option value=ALL selected>ALL</option>
+    {% for i in distance_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+
+  <p>種目：
+    <select name="swimmingStyle_female">
+    <option value=ALL selected>ALL</option>
+    {% for i in swimmingstyle_list %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+  </p>
+  <p><input type="submit" name="submit_female" value="表示"></p>
+</form>
+<p class="log2"></p>
+</body>
+
+<style>
+  input[name="submit_male"]{
+    height: 35px;
+    width: 70px;
+    padding: 2px;
+    border-radius:10px;
+    box-sizing: border-box;
+    border: 1px solid #68779a;
+    background: #cbe8fa;
+    cursor: pointer;
+  }
+  input[name="submit_female"]{
+    height: 35px;
+    width: 70px;
+    padding: 2px;
+    border-radius:10px;
+    box-sizing: border-box;
+    border: 1px solid #68779a;
+    background: #cbe8fa;
+    cursor: pointer;
+  }
+  select[name="swimmerName_male"]{
+    height: 27px;
+    width: 180px;
+    padding: 2px;
+    border-radius:10px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="swimmerName_female"]{
+    height: 27px;
+    width: 180px;
+    padding: 2px;
+    border-radius:10px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="waterWay_male"]{
+    height: 27px;
+    width: 80px;
+    padding: 2px;
+    font-size: 15px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="distance_male"]{
+    height: 27px;
+    width: 80px;
+    font-size: 15px;
+    padding: 2px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="swimmingStyle_male"]{
+    height: 27px;
+    width: 80px;
+    font-size: 15px;
+    padding: 2px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="waterWay_female"]{
+    height: 27px;
+    width: 80px;
+    font-size: 15px;
+    padding: 2px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="distance_female"]{
+    height: 27px;
+    width: 80px;
+    font-size: 15px;
+    padding: 2px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  select[name="swimmingStyle_female"]{
+    height: 27px;
+    width: 80px;
+    font-size: 15px;
+    padding: 2px;
+    text-align: center;
+    border-radius:4px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  p.sex1{ font-size: large; }
+  p.sex2{ font-size: large; }
+</style>
+
+<style>
+  .flashes{
+    border-bottom: 0.5px solid white;
+    width: 40vw;
+    color: white;
+  }
+  .success {
+      background-color: midnightblue;
+  }
+  .failed {
+      background-color: deeppink;
+  }
+</style>
+
+<script language="JavaScript">
+  function clearSelectedOptions1() {
+    $('.js-select2_1').val(null).trigger('change');
+  }
+  function clearSelectedOptions2() {
+    $('.js-select2_2').val(null).trigger('change');
+  }
+  const checkbox1 = document.getElementById('check1')
+  const checkbox2 = document.getElementById('check2')
+  
+  $(document).ready(function() {
+      $('.js-select2_1').val("")
+      $('.js-select2_1').trigger("change");//初期値を設定しない
+      
+      $('.js-select2_1').select2({
+        placeholder: "選手を選択",
+        multiple: true
+      });
+      $('.js-select2_1').click(function(){
+        //$('.js-select2_1').val(null).trigger('change')
+        // $('.js-select2_1').select2({placeholder: '', allowClear: true});
+        // $('.js-select2_1').val(null).empty().select2('destroy');
+        document.getElementsByName("option1")[0].disabled=true
+      })
+
+      $('.js-select2_2').click(function(){
+        //$('.js-select2_1').val(null).empty().select2('destroy');
+        document.getElementsByName("option2")[0].disabled=true
+      })
+      // if (document.getElementsByName("check1")[0].checked){
+      //   window.alert("ss",document.getElementsByName("check1")[0].checked)
+      //   $('.js-select2_2').select2({
+      //     multiple: true
+      //   });
+      // }
+
+      $('#check1').click(function() {
+        if (document.getElementsByName("check1")[0].checked){
+          $('.js-select2_1').select2({
+            multiple: true
+          });
+          //document.getElementsByName("option1")[0].disabled=true
+        }else{
+          $('.js-select2_1').select2({
+            multiple: false
+          });
+        }
+      });
+
+      $('.js-select2_2').val("")
+      $('.js-select2_2').trigger("change");//初期値を設定しない
+
+      $('.js-select2_2').select2({
+        placeholder: "選手を選択",
+        multiple: true
+      });
+
+      $('#check2').click(function() {
+        if (document.getElementsByName("check2")[0].checked){
+          $('.js-select2_2').select2({
+            multiple: true
+          });
+          //document.getElementsByName("option2")[0].disabled=true
+        }else{
+          $('.js-select2_2').select2({
+            multiple: false
+          });
+        }
+      });
+      // $('#check2').click(function() {
+      //   $('.js-select2_2').select2({
+      //     multiple: true
+      //   });
+      // });
+      // $("#clearSelect1").on("click", clearSelectedOptions1);
+      // $("#clearSelect2").on("click", clearSelectedOptions2);
+  });
+  window.onload = function () {
+    var age = $(".js-select2_1").val()
+    $('.js-select2_1').val(age).trigger("change");
+    var age1 = $(".js-select2_2").val()
+    $('.js-select2_2').val(age1).trigger("change");
+  }
+
+  const element1 = document.querySelector('[name="waterWay_male"]');//select要素の取得
+  const element2 = document.querySelector('[name="distance_male"]');//select要素の取得
+  const element3 = document.querySelector('[name="swimmingStyle_male"]');//select要素の取得
+  element1.addEventListener('change', handleChange1);//変更イベントを監視
+  element2.addEventListener('change', handleChange1);//変更イベントを監視
+  element3.addEventListener('change', handleChange1);//変更イベントを監視
+  function handleChange1(event1, event2, event3) {
+    document.querySelector('.log1').innerHTML = "男子"+" " + element1.value+" "+element2.value+" "+element3.value+" "+' を選択中です。';
+  }
+  const element4 = document.querySelector('[name="waterWay_female"]');//select要素の取得
+  const element5 = document.querySelector('[name="distance_female"]');//select要素の取得
+  const element6 = document.querySelector('[name="swimmingStyle_female"]');//select要素の取得
+  element4.addEventListener('change', handleChange2);//変更イベントを監視
+  element5.addEventListener('change', handleChange2);//変更イベントを監視
+  element6.addEventListener('change', handleChange2);//変更イベントを監視
+  function handleChange2(event4, event5, event6) {
+    document.querySelector('.log2').innerHTML = "女子"+" " + element4.value+" "+element5.value+" "+element6.value+" "+' を選択中です。';
+  }
+  
+</script>
+</html>
