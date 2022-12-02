@@ -95,12 +95,22 @@ def result():
                 for name in swimmerName:
                     nameLists = get_All(name)
                     res+="存在していないため、全てを表示します"
-                    for nameList in nameLists:
+                    results = {}
+                    for i in range(len(nameLists)):
+                        nameList=nameLists[i]
+                        results.setdefault(nameList['waterWay']+" "+nameList['swimmerSex']+" "+nameList['distance']+" "+nameList['swimmingStyle'], []).append(nameList)
                         df=pd.DataFrame(nameLists, columns=['年度', '所属', '種目', '記録', "ランク", "日付", "大会名"])
                         df=df.sort_values('年度', ascending=False)
-                        if not df.empty:
-                            dfsflag=True
-                        res+=render_template('result.html', swimmerName = name, waterWay = nameList['waterWay'], swimmerSex = nameList['swimmerSex'], distance = nameList['distance'], swimmingStyle = nameList['swimmingStyle'], dataframe = df.to_html(index=False))
+                    for key,val in results.items():
+                        df=pd.DataFrame(val, columns=['年度', '所属', '種目', '記録', "ランク", "日付", "大会名"])
+                        df=df.sort_values('年度', ascending=False)
+                        res+=render_template('result.html', swimmerName = name, waterWay = key.split()[0], swimmerSex = key.split()[1], distance = key.split()[2], swimmingStyle = key.split()[3], dataframe = df.to_html(index=False))
+                    # for nameList in nameLists:
+                    #     df=pd.DataFrame(nameLists, columns=['年度', '所属', '種目', '記録', "ランク", "日付", "大会名"])
+                    #     df=df.sort_values('年度', ascending=False)
+                    #     if not df.empty:
+                    #         dfsflag=True
+                    #     res+=render_template('result.html', swimmerName = name, waterWay = nameList['waterWay'], swimmerSex = nameList['swimmerSex'], distance = nameList['distance'], swimmingStyle = nameList['swimmingStyle'], dataframe = df.to_html(index=False))
         return res#render_template('result.html', swimmerName = swimmerName, waterWay = waterWay, swimmerSex = sex, distance = distance, swimmingStyle = swimmingStyle, dataframe = df.to_html(index=False))
     else:
         print("ssssssss")

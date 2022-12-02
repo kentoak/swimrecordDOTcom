@@ -48,6 +48,7 @@ def get_All(swimmerName):
                                         info["大会名"]=i["achieved_game"]["game_name"]
                                         #print(i["record"]["achieve_date"])
                                         info['所属']=i["swimmers"]['entry_group']['name']
+                                        info["種目"]=str(distance_code_dict[distance_code])+" "+str(swimming_style_code_dict[swimming_style_code])
                                         #print(info)
                                         info['swimmerSex']=str(gender_code_dict[gender_code])
                                         info['waterWay']=str(waterway_code_dict[waterway_code])
